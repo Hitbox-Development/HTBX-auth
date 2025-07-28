@@ -1,0 +1,20 @@
+{
+  "name": "htbx-auth",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Hitbox Development Authentication System",
+  "main": "index.js",
+  "repository": "https://github.com/HitboxDevelopment/htbx-auth.git",
+  "author": "HITBOX, Fierra",
+  "license": "MIT",
+  "dependencies": {
+    "@ptkdev/logger": "^1.8.0",
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "ws": "^8.18.3"
+  }
+}
