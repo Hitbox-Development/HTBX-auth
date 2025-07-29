@@ -115,6 +115,12 @@ Encrypted JSON:
 * All errors are logged and returned as `{ type: "error", message: "..." }`
 * A pretty logger (server) by [ptkdev](https://github.com/ptkdev/ptkdev-logger)
 
+## 📝To-Do's
+* Re-write auth module
+* Implement tokens database
+* Static UUID for clients
+* Mock dashboard for client after logins and tokens
+
 ## 📄 License
 
 [GPLv3](./LICENSE)
