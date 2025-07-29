@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-const uuid = typeof window !== "undefined" ? window.crypto.randomUUID() : ""; // persistent per load
+const uuid = typeof window !== "undefined" ? window.crypto.randomUUID() : "";
 
 export default function LoginPage() {
   const wsRef = useRef(null);
@@ -34,7 +34,7 @@ export default function LoginPage() {
       return await crypto.subtle.generateKey(
         { name: "ECDH", namedCurve: "P-256" },
         true,
-        ["deriveBits"] // ✅ Fix is here!
+        ["deriveBits"]
       );
     }
 
@@ -42,7 +42,6 @@ export default function LoginPage() {
       const raw = await window.crypto.subtle.exportKey("spki", key);
       const b64 = btoa(String.fromCharCode(...new Uint8Array(raw)));
 
-      // Wrap in PEM format
       const pem = `-----BEGIN PUBLIC KEY-----\n${b64
         .match(/.{1,64}/g)
         .join("\n")}\n-----END PUBLIC KEY-----`;
@@ -56,7 +55,7 @@ export default function LoginPage() {
         raw,
         { name: "ECDH", namedCurve: "P-256" },
         true,
-        [] // ✅ public keys should have no usage, or at most 'deriveBits'
+        []
       );
     }
 
@@ -64,7 +63,7 @@ export default function LoginPage() {
       const sharedBits = await crypto.subtle.deriveBits(
         { name: "ECDH", public: pubKey },
         privKey,
-        256 // bits
+        256
       );
 
       return await crypto.subtle.importKey(
@@ -113,12 +112,12 @@ export default function LoginPage() {
                 data,
                 wsRef.current.sharedSecret
               );
-              const decrypted = JSON.parse(decryptedRaw); // You were missing this!
+              const decrypted = JSON.parse(decryptedRaw);
 
               log("Decrypted message: " + JSON.stringify(decrypted));
 
               if (decrypted.type === "success") {
-                setLoginUser(decrypted.username || username); // ✅ Save the username for UI
+                setLoginUser(decrypted.username || username);
                 log(`✅ Login successful: ${decrypted.message}`);
               }
             } else if (data.type === "error") {
@@ -160,8 +159,7 @@ export default function LoginPage() {
       await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoded)
     );
 
-    // Split ciphertext and tag
-    const tagLength = 16; // AES-GCM tag is 16 bytes
+    const tagLength = 16;
     const ciphertext = ciphertextWithTag.slice(0, -tagLength);
     const tag = ciphertextWithTag.slice(-tagLength);
 
@@ -177,7 +175,6 @@ export default function LoginPage() {
     const payloadBytes = Uint8Array.from(Buffer.from(payload, "hex"));
     const tagBytes = Uint8Array.from(Buffer.from(tag, "hex"));
 
-    // Merge payload + tag into single buffer
     const fullCiphertext = new Uint8Array(
       payloadBytes.length + tagBytes.length
     );

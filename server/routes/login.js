@@ -46,7 +46,6 @@ export function wsHandler(ws, req) {
       return ws.close();
     }
 
-    // Handle key exchange only once
     if (!hasSharedSecret && parsed.type === "client-public-key" && parsed.key) {
       clearTimeout(timeout);
       try {
@@ -87,7 +86,7 @@ export function wsHandler(ws, req) {
       try {
         const decrypted = decryptMessage(sharedSecret, { iv, payload, tag });
 
-        const response = handleMessage(decrypted); // <== now we pass decrypted JSON
+        const response = handleMessage(decrypted);
         const encrypted = encryptMessage(sharedSecret, response);
 
         ws.send(JSON.stringify(encrypted));

@@ -12,15 +12,13 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with your Next.js app URL
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST'],
 }));
 const server = http.createServer(app);
 
-// Create global WebSocket server
 const wss = new WebSocketServer({ noServer: true });
 
-// Dynamic route loading
 const routeHandlers = {};
 
 const routeFiles = readdirSync('./routes').filter(file => file.endsWith('.js'));
@@ -33,7 +31,6 @@ for (const file of routeFiles) {
   logger.info(`🧩 Loaded route ${routePath}`);
 }
 
-// Upgrade handler
 server.on('upgrade', (req, socket, head) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const route = url.pathname;

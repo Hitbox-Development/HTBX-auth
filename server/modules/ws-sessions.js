@@ -17,7 +17,6 @@ export function attachSocket(sessionID, socket, uuid) {
   if (sessions.has(sessionID)) {
     const session = sessions.get(sessionID);
     if (bcrypt.compareSync(uuid, session.hashedUUID)) {
-      // If a socket is already attached, block new connection
       if (session.socket && session.socket.readyState === 1) {
         logger.warning(`❌ WebSocket already attached for session ID: ${sessionID}. Blocking new connection.`);
         return false;
