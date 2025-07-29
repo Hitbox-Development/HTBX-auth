@@ -1,6 +1,6 @@
 # HTBX Auth v2
 
-HTBX Auth v2 is a secure, WebSocket-based authentication system for Minecraft mods and services. It uses **ECDH key exchange** to derive a shared secret, which is then used with **AES-256-GCM** for encrypted communication between the client and server.
+HTBX Auth v2 is a E2E secure, WebSocket-based authentication system. It uses **ECDH key exchange** to derive a shared secret, which is then used with **AES-256-GCM** for encrypted communication between the client and server.
 
 ## 🚀 Features
 
